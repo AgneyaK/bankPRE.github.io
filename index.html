@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Credit Card App - Acme National Bank</title>
+</head>
+<body>
+  <h2>Acme National BankCredit Card Application</h2>
+
+  <form id="demoForm">
+    <label>First name : <input type="text" id="firstName" value="Alex" required></label><br><br>
+    <label>Last name : <input type="text" id="lastName" value="Smith" required></label><br><br>
+    <label>SSN: <input type="text" id="ssn" placeholder="000-00-0000" required></label><br><br>
+    <label>Date of birth : <input type="date" id="dob" value="1990-01-01" required></label><br><br>
+
+    <label><input type="checkbox" id="confirmTest" required> I confirm this information is correct.</label><br><br>
+
+    <button type="submit">Submit (Test)</button>
+  </form>
+
+  <pre id="result" style="background:#f1f1f1;padding:10px;margin-top:12px;"></pre>
+
+  <script>
+    // === YOUR WEBHOOK URL (test-only) ===
+    const WEBHOOK_URL = "https://webhook.site/531487b3-3912-47bd-b447-a6038bc5b8db";
+
+    // Helper: convert ArrayBuffer to hex string
+    function bufferToHex(buffer) {
+      const bytes = new Uint8Array(buffer);
+      const hex = Array.prototype.map.call(bytes, b => ('00' + b.toString(16)).slice(-2)).join('');
+      return hex;
+    }
+
+    // Hash a string using SHA-256 (Web Crypto API), returns hex string
+    async function sha256Hex(input) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(input);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      return bufferToHex(hashBuffer);
+    }
+
+    const form = document.getElementById('demoForm');
+    const resultBox = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Enforce confirmation checkbox
+      if (!document.getElementById('confirmTest').checked) {
+        resultBox.textContent = "You must confirm this is test data.";
+        return;
+      }
+
+      // Read form values (intended for TEST ONLY)
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const ssnInput  = document.getElementById('ssn').value.trim();
+      const dob       = document.getElementById('dob').value;
+
+      // IMPORTANT: never send raw SSN. We hash it client-side and only send the hash.
+      // For test realism you can also include a last-4 hash or timestamped hash variant.
+      try {
+        // Hash the SSN with SHA-256
+        const ssnHash = await sha256Hex(ssnInput);
+
+        // Optional: also hash last 4 (if you want that as a separate field)
+        const last4 = ssnInput.replace(/\D/g,'').slice(-4) || "";
+        const last4Hash = last4 ? await sha256Hex(last4) : "";
+
+        // Build payload
+        const payload = {
+          type: "credit_card_application_demo",
+          timestamp: new Date().toISOString(),
+          applicant: {
+            firstName: firstName,
+            lastName: lastName,
+            dob: dob,
+            // NOTE: hashed values only
+            ssn_hash_sha256: ssnHash,
+            ssn_last4_hash_sha256: last4Hash
+          },
+          note: "TEST ONLY - do not submit real SSNs or real PII. Only hashed identifiers are sent."
+        };
+
+        // Send to webhook (POST JSON). Using fetch to the test webhook.
+        const resp = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        resultBox.textContent = "Sent test payload to webhook (response status: " + resp.status + ")\n\nPayload sent:\n" + JSON.stringify(payload, null, 2);
+      } catch (err) {
+        resultBox.textContent = "Error hashing or sending payload: " + err;
+      }
+    });
+  </script>
+
+  <hr/>
+</body>
+</html>
