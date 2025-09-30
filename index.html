@@ -89,47 +89,65 @@
   </footer>
 
   <script>
-    // --- Synthetic dataset (10 diverse, non-stereotyped profiles) ---
+    // --- Synthetic dataset (14 diverse, non-stereotyped profiles; includes higher weights) ---
     const profiles = [
-      {
+      { // baseline
         name: "Avery Chen", pronouns: "she/her", gender: "Woman", race: "Asian", religion: "Agnostic", politics: "Liberal",
         height_cm: 165, weight_kg: 60, hobbies: ["rock climbing","baking","photography"], job: "Software engineer", education: "M.S. Computer Science"
       },
-      {
+      { // baseline
         name: "Jordan Smith", pronouns: "he/him", gender: "Man", race: "Black", religion: "Christian", politics: "Centrist",
-        height_cm: 180, weight_kg: 82, hobbies: ["basketball","sci‑fi novels","cooking"], job: "High school teacher", education: "M.Ed. Education"
+        height_cm: 180, weight_kg: 82, hobbies: ["basketball","sci-fi novels","cooking"], job: "High school teacher", education: "M.Ed. Education"
       },
-      {
-        name: "Noor Al‑Khalil", pronouns: "they/them", gender: "Nonbinary", race: "Middle Eastern/North African", religion: "Muslim", politics: "Independent",
+      { // baseline
+        name: "Noor Al-Khalil", pronouns: "they/them", gender: "Nonbinary", race: "Middle Eastern/North African", religion: "Muslim", politics: "Independent",
         height_cm: 172, weight_kg: 70, hobbies: ["calligraphy","hiking","board games"], job: "UX researcher", education: "B.A. Psychology"
       },
-      {
+      { // baseline
         name: "Diego Martínez", pronouns: "he/they", gender: "Man", race: "Latine", religion: "Secular humanist", politics: "Green",
         height_cm: 175, weight_kg: 76, hobbies: ["urban gardening","cycling","indie films"], job: "Urban planner", education: "M.U.P. Urban Planning"
       },
-      {
+      { // baseline
         name: "Sophia Rossi", pronouns: "she/her", gender: "Woman", race: "White", religion: "Atheist", politics: "Social Democrat",
         height_cm: 168, weight_kg: 63, hobbies: ["yoga","ceramics","travel"], job: "Nurse practitioner", education: "M.S. Nursing"
       },
-      {
+      { // baseline
         name: "Kai Green", pronouns: "they/she", gender: "Trans woman", race: "Multiracial", religion: "Buddhist", politics: "Liberal",
-        height_cm: 178, weight_kg: 74, hobbies: ["painting","open‑source","tea tasting"], job: "Data analyst", education: "B.S. Statistics"
+        height_cm: 178, weight_kg: 74, hobbies: ["painting","open-source","tea tasting"], job: "Data analyst", education: "B.S. Statistics"
       },
-      {
+      { // baseline
         name: "Marcus O'Connor", pronouns: "he/him", gender: "Trans man", race: "White", religion: "Spiritual", politics: "Libertarian",
         height_cm: 170, weight_kg: 72, hobbies: ["trail running","woodworking","podcasts"], job: "Paramedic", education: "A.S. Emergency Medicine"
       },
-      {
+      { // baseline
         name: "Ananya Gupta", pronouns: "she/they", gender: "Woman", race: "South Asian", religion: "Hindu", politics: "Centrist",
         height_cm: 162, weight_kg: 58, hobbies: ["classical dance","baking","language learning"], job: "Product manager", education: "MBA"
       },
-      {
+      { // baseline
         name: "Raven Tallbear", pronouns: "they/he", gender: "Nonbinary", race: "Indigenous", religion: "Sikh", politics: "Independent",
         height_cm: 183, weight_kg: 86, hobbies: ["astronomy","canoeing","3D printing"], job: "Mechanical engineer", education: "B.Eng. Mechanical"
       },
-      {
+      { // baseline
         name: "Leah Cohen", pronouns: "she/her", gender: "Woman", race: "Jewish", religion: "Jewish", politics: "Conservative",
         height_cm: 171, weight_kg: 68, hobbies: ["piano","bouldering","museums"], job: "Accountant", education: "B.S. Accounting"
+      },
+
+      // --- Added profiles with higher weight-to-height ratios ---
+      {
+        name: "Maya Thompson", pronouns: "she/her", gender: "Woman", race: "Black", religion: "Spiritual", politics: "Independent",
+        height_cm: 160, weight_kg: 95, hobbies: ["knitting","food blogging","RPGs"], job: "Customer success lead", education: "B.A. Communications"
+      },
+      {
+        name: "Ethan Park", pronouns: "he/him", gender: "Man", race: "Asian", religion: "Agnostic", politics: "Centrist",
+        height_cm: 178, weight_kg: 115, hobbies: ["board games","barbecue","home theater"], job: "Systems administrator", education: "B.S. Information Systems"
+      },
+      {
+        name: "Selene Rivera", pronouns: "they/she", gender: "Nonbinary", race: "Latine", religion: "Secular humanist", politics: "Liberal",
+        height_cm: 170, weight_kg: 102, hobbies: ["watercolors","salsa dancing","birding"], job: "Occupational therapist", education: "M.S. OT"
+      },
+      {
+        name: "Owen Gallagher", pronouns: "he/him", gender: "Man", race: "White", religion: "Christian", politics: "Conservative",
+        height_cm: 185, weight_kg: 128, hobbies: ["fishing","DIY electronics","history podcasts"], job: "Logistics coordinator", education: "B.B.A. Supply Chain"
       }
     ];
 
@@ -139,7 +157,7 @@
       const totalIn = cm / 2.54;
       const ft = Math.floor(totalIn / 12);
       const inches = Math.round(totalIn - ft * 12);
-      return `${ft}'${inches}\"`;
+      return `${ft}'${inches}"`;
     };
 
     function render(cards){
