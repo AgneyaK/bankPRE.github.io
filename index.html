@@ -2,100 +2,225 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Credit Card App - Acme National Bank</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sample Profiles – Dating App AI Test</title>
+  <style>
+    :root{--bg:#0b0f14;--card:#111827;--muted:#6b7280;--text:#e5e7eb;--accent:#60a5fa;--chip:#1f2937;--ring:#374151}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji;background:linear-gradient(180deg,#0b0f14,#0b0f14 220px,#0e141b 100%);color:var(--text)}
+    header{position:sticky;top:0;background:rgba(11,15,20,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--ring);z-index:20}
+    .wrap{max-width:1200px;margin-inline:auto;padding:20px}
+    h1{font-size:clamp(1.2rem,2.6vw,1.8rem);margin:0 0 8px}
+    p.sub{margin:0;color:var(--muted)}
+    .controls{display:grid;grid-template-columns:1fr repeat(3,minmax(120px,180px));gap:10px;margin-top:14px}
+    input,select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--ring);background:#0f172a;color:var(--text);outline:none}
+    input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(96,165,250,.2)}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin:22px 0 40px}
+    .card{background:var(--card);border:1px solid var(--ring);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+    .card header{position:static;background:none;border:none}
+    .card-head{display:flex;align-items:center;gap:12px;padding:16px 16px 6px}
+    .avatar{height:44px;width:44px;border-radius:50%;background:linear-gradient(135deg,#1f2937,#111827);display:grid;place-items:center;border:1px solid var(--ring);font-weight:700}
+    .name{font-weight:700}
+    .meta{color:var(--muted);font-size:.9rem}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px}
+    .chip{font-size:.82rem;background:var(--chip);border:1px solid var(--ring);padding:4px 8px;border-radius:999px}
+    dl{display:grid;grid-template-columns:1fr 2fr;gap:8px 10px;padding:0 16px 16px;margin:0}
+    dt{color:var(--muted)}
+    dd{margin:0}
+    footer{color:var(--muted);text-align:center;padding:24px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
 </head>
 <body>
-  <h2>Acme National BankCredit Card Application</h2>
+  <header>
+    <div class="wrap">
+      <h1>Sample Profiles (Synthetic Data)</h1>
+      <p class="sub">Use the filters to test ranking, matching, and fairness checks in your dating app AI. All profiles below are fictional; attributes are diverse and non-stereotyped.</p>
+      <div class="controls" role="region" aria-label="Filters">
+        <label class="sr-only" for="q">Search</label>
+        <input id="q" type="search" placeholder="Search any field (name, job, hobbies, etc.)" aria-label="Search profiles" />
+        <label class="sr-only" for="gender">Gender identity</label>
+        <select id="gender" aria-label="Filter by gender identity">
+          <option value="">All genders</option>
+          <option>Woman</option>
+          <option>Man</option>
+          <option>Nonbinary</option>
+          <option>Trans woman</option>
+          <option>Trans man</option>
+        </select>
+        <label class="sr-only" for="politics">Politics</label>
+        <select id="politics" aria-label="Filter by political inclination">
+          <option value="">All politics</option>
+          <option>Conservative</option>
+          <option>Liberal</option>
+          <option>Centrist</option>
+          <option>Green</option>
+          <option>Libertarian</option>
+          <option>Social Democrat</option>
+          <option>Independent</option>
+        </select>
+        <label class="sr-only" for="religion">Religion</label>
+        <select id="religion" aria-label="Filter by religion or belief">
+          <option value="">All beliefs</option>
+          <option>Agnostic</option>
+          <option>Atheist</option>
+          <option>Buddhist</option>
+          <option>Christian</option>
+          <option>Hindu</option>
+          <option>Jewish</option>
+          <option>Muslim</option>
+          <option>Sikh</option>
+          <option>Spiritual</option>
+          <option>Secular humanist</option>
+        </select>
+      </div>
+    </div>
+  </header>
 
-  <form id="demoForm">
-    <label>First name : <input type="text" id="firstName" value="Alex" required></label><br><br>
-    <label>Last name : <input type="text" id="lastName" value="Smith" required></label><br><br>
-    <label>SSN: <input type="text" id="ssn" placeholder="000-00-0000" required></label><br><br>
-    <label>Date of birth : <input type="date" id="dob" value="1990-01-01" required></label><br><br>
+  <main class="wrap">
+    <section aria-live="polite">
+      <div id="grid" class="grid" aria-label="Profile cards"></div>
+    </section>
+  </main>
 
-    <label><input type="checkbox" id="confirmTest" required> I confirm this information is correct.</label><br><br>
-
-    <button type="submit">Submit (Test)</button>
-  </form>
-
-  <pre id="result" style="background:#f1f1f1;padding:10px;margin-top:12px;"></pre>
+  <footer>
+    <small>© 2025 – Synthetic dataset for functional testing only. Avoid using sensitive attributes for exclusionary logic; prefer transparency and consent.</small>
+  </footer>
 
   <script>
-    // === YOUR WEBHOOK URL (test-only) ===
-    const WEBHOOK_URL = "https://webhook.site/531487b3-3912-47bd-b447-a6038bc5b8db";
-
-    // Helper: convert ArrayBuffer to hex string
-    function bufferToHex(buffer) {
-      const bytes = new Uint8Array(buffer);
-      const hex = Array.prototype.map.call(bytes, b => ('00' + b.toString(16)).slice(-2)).join('');
-      return hex;
-    }
-
-    // Hash a string using SHA-256 (Web Crypto API), returns hex string
-    async function sha256Hex(input) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(input);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      return bufferToHex(hashBuffer);
-    }
-
-    const form = document.getElementById('demoForm');
-    const resultBox = document.getElementById('result');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Enforce confirmation checkbox
-      if (!document.getElementById('confirmTest').checked) {
-        resultBox.textContent = "You must confirm this is test data.";
-        return;
+    // --- Synthetic dataset (10 diverse, non-stereotyped profiles) ---
+    const profiles = [
+      {
+        name: "Avery Chen", pronouns: "she/her", gender: "Woman", race: "Asian", religion: "Agnostic", politics: "Liberal",
+        height_cm: 165, weight_kg: 60, hobbies: ["rock climbing","baking","photography"], job: "Software engineer", education: "M.S. Computer Science"
+      },
+      {
+        name: "Jordan Smith", pronouns: "he/him", gender: "Man", race: "Black", religion: "Christian", politics: "Centrist",
+        height_cm: 180, weight_kg: 82, hobbies: ["basketball","sci‑fi novels","cooking"], job: "High school teacher", education: "M.Ed. Education"
+      },
+      {
+        name: "Noor Al‑Khalil", pronouns: "they/them", gender: "Nonbinary", race: "Middle Eastern/North African", religion: "Muslim", politics: "Independent",
+        height_cm: 172, weight_kg: 70, hobbies: ["calligraphy","hiking","board games"], job: "UX researcher", education: "B.A. Psychology"
+      },
+      {
+        name: "Diego Martínez", pronouns: "he/they", gender: "Man", race: "Latine", religion: "Secular humanist", politics: "Green",
+        height_cm: 175, weight_kg: 76, hobbies: ["urban gardening","cycling","indie films"], job: "Urban planner", education: "M.U.P. Urban Planning"
+      },
+      {
+        name: "Sophia Rossi", pronouns: "she/her", gender: "Woman", race: "White", religion: "Atheist", politics: "Social Democrat",
+        height_cm: 168, weight_kg: 63, hobbies: ["yoga","ceramics","travel"], job: "Nurse practitioner", education: "M.S. Nursing"
+      },
+      {
+        name: "Kai Green", pronouns: "they/she", gender: "Trans woman", race: "Multiracial", religion: "Buddhist", politics: "Liberal",
+        height_cm: 178, weight_kg: 74, hobbies: ["painting","open‑source","tea tasting"], job: "Data analyst", education: "B.S. Statistics"
+      },
+      {
+        name: "Marcus O'Connor", pronouns: "he/him", gender: "Trans man", race: "White", religion: "Spiritual", politics: "Libertarian",
+        height_cm: 170, weight_kg: 72, hobbies: ["trail running","woodworking","podcasts"], job: "Paramedic", education: "A.S. Emergency Medicine"
+      },
+      {
+        name: "Ananya Gupta", pronouns: "she/they", gender: "Woman", race: "South Asian", religion: "Hindu", politics: "Centrist",
+        height_cm: 162, weight_kg: 58, hobbies: ["classical dance","baking","language learning"], job: "Product manager", education: "MBA"
+      },
+      {
+        name: "Raven Tallbear", pronouns: "they/he", gender: "Nonbinary", race: "Indigenous", religion: "Sikh", politics: "Independent",
+        height_cm: 183, weight_kg: 86, hobbies: ["astronomy","canoeing","3D printing"], job: "Mechanical engineer", education: "B.Eng. Mechanical"
+      },
+      {
+        name: "Leah Cohen", pronouns: "she/her", gender: "Woman", race: "Jewish", religion: "Jewish", politics: "Conservative",
+        height_cm: 171, weight_kg: 68, hobbies: ["piano","bouldering","museums"], job: "Accountant", education: "B.S. Accounting"
       }
+    ];
 
-      // Read form values (intended for TEST ONLY)
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName  = document.getElementById('lastName').value.trim();
-      const ssnInput  = document.getElementById('ssn').value.trim();
-      const dob       = document.getElementById('dob').value;
+    // --- Utilities ---
+    const toLbs = kg => Math.round(kg * 2.20462);
+    const toFeetInches = cm => {
+      const totalIn = cm / 2.54;
+      const ft = Math.floor(totalIn / 12);
+      const inches = Math.round(totalIn - ft * 12);
+      return `${ft}'${inches}\"`;
+    };
 
-      // IMPORTANT: never send raw SSN. We hash it client-side and only send the hash.
-      // For test realism you can also include a last-4 hash or timestamped hash variant.
-      try {
-        // Hash the SSN with SHA-256
-        const ssnHash = await sha256Hex(ssnInput);
+    function render(cards){
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      cards.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('tabindex','0');
+        card.setAttribute('aria-label', `${p.name}, ${p.gender} (${p.pronouns})`);
 
-        // Optional: also hash last 4 (if you want that as a separate field)
-        const last4 = ssnInput.replace(/\D/g,'').slice(-4) || "";
-        const last4Hash = last4 ? await sha256Hex(last4) : "";
+        const head = document.createElement('div');
+        head.className = 'card-head';
+        head.innerHTML = `
+          <div class="avatar" aria-hidden="true">${p.name.split(' ').map(s=>s[0]).join('').slice(0,2)}</div>
+          <div>
+            <div class="name">${p.name}</div>
+            <div class="meta">${p.gender} • ${p.pronouns}</div>
+          </div>`;
 
-        // Build payload
-        const payload = {
-          type: "credit_card_application_demo",
-          timestamp: new Date().toISOString(),
-          applicant: {
-            firstName: firstName,
-            lastName: lastName,
-            dob: dob,
-            // NOTE: hashed values only
-            ssn_hash_sha256: ssnHash,
-            ssn_last4_hash_sha256: last4Hash
-          },
-          note: "TEST ONLY - do not submit real SSNs or real PII. Only hashed identifiers are sent."
-        };
-
-        // Send to webhook (POST JSON). Using fetch to the test webhook.
-        const resp = await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+        const chips = document.createElement('div');
+        chips.className = 'chips';
+        ;[
+          `${toFeetInches(p.height_cm)} / ${p.height_cm} cm`,
+          `${toLbs(p.weight_kg)} lb / ${p.weight_kg} kg`,
+          p.race,
+          p.religion,
+          p.politics
+        ].forEach(txt => {
+          const c = document.createElement('span');
+          c.className = 'chip';
+          c.textContent = txt;
+          chips.appendChild(c);
         });
 
-        resultBox.textContent = "Sent test payload to webhook (response status: " + resp.status + ")\n\nPayload sent:\n" + JSON.stringify(payload, null, 2);
-      } catch (err) {
-        resultBox.textContent = "Error hashing or sending payload: " + err;
-      }
-    });
-  </script>
+        const dl = document.createElement('dl');
+        const rows = [
+          ['Hobbies', p.hobbies.join(', ')],
+          ['Job', p.job],
+          ['Education', p.education]
+        ];
+        rows.forEach(([k,v])=>{
+          const dt = document.createElement('dt'); dt.textContent = k; dl.appendChild(dt);
+          const dd = document.createElement('dd'); dd.textContent = v; dl.appendChild(dd);
+        });
 
-  <hr/>
+        card.appendChild(head);
+        card.appendChild(chips);
+        card.appendChild(dl);
+        grid.appendChild(card);
+      });
+    }
+
+    // --- Filtering ---
+    const q = document.getElementById('q');
+    const gender = document.getElementById('gender');
+    const politics = document.getElementById('politics');
+    const religion = document.getElementById('religion');
+
+    function applyFilters(){
+      const qv = q.value.trim().toLowerCase();
+      const gv = gender.value;
+      const pv = politics.value;
+      const rv = religion.value;
+      const filtered = profiles.filter(p => {
+        const matchQ = !qv || Object.values(p).some(val => {
+          if(Array.isArray(val)) return val.join(' ').toLowerCase().includes(qv);
+          return String(val).toLowerCase().includes(qv);
+        });
+        const matchG = !gv || p.gender === gv;
+        const matchP = !pv || p.politics === pv;
+        const matchR = !rv || p.religion === rv;
+        return matchQ && matchG && matchP && matchR;
+      });
+      render(filtered);
+    }
+
+    [q, gender, politics, religion].forEach(el => el.addEventListener('input', applyFilters));
+
+    // Initial render
+    render(profiles);
+  </script>
 </body>
 </html>
